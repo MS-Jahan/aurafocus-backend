@@ -8,7 +8,7 @@ from pydantic import BaseModel
 import uvicorn
 import os
 from datetime import datetime
-import anthropic
+from openai import OpenAI
 
 app = FastAPI(
     title="AuraFocus Backend API",
@@ -42,13 +42,13 @@ class HealthResponse(BaseModel):
     version: str
     timestamp: str
 
-# Initialize Anthropic client
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
-if ANTHROPIC_API_KEY:
-    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+# Initialize OpenAI client
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+if OPENAI_API_KEY:
+    client = OpenAI(api_key=OPENAI_API_KEY)
 else:
     client = None
-    print("⚠️  Warning: ANTHROPIC_API_KEY not set. LLM validation will use mock responses.")
+    print("⚠️  Warning: OPENAI_API_KEY not set. LLM validation will use mock responses.")
 
 @app.get("/", response_model=HealthResponse)
 async def root():
@@ -109,18 +109,21 @@ Guidelines:
 - Time allocation: 60-600 seconds based on task complexity
 - Err on the side of approving if there's ANY concrete task mentioned"""
 
-        # Call Claude API
-        message = client.messages.create(
-            model="claude-3-5-sonnet-20241022",
-            max_tokens=300,
+        # Call OpenAI API
+        import json
+
+        completion = client.chat.completions.create(
+            model="gpt-4o-mini",  # Or gpt-4, gpt-3.5-turbo
             messages=[
+                {"role": "system", "content": "You are an AI assistant helping users use social media mindfully. Respond only with valid JSON."},
                 {"role": "user", "content": prompt}
-            ]
+            ],
+            max_tokens=300,
+            temperature=0.3
         )
 
         # Parse response
-        import json
-        response_text = message.content[0].text
+        response_text = completion.choices[0].message.content
 
         # Extract JSON from response
         json_start = response_text.find('{')

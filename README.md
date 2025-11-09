@@ -4,7 +4,7 @@ Backend API for AuraFocus - Mindful app usage tracker with LLM-powered purpose v
 
 ## Features
 
-- **Purpose Validation**: Uses Claude AI to validate user's stated purpose for opening social media apps
+- **Purpose Validation**: Uses OpenAI GPT models to validate user's stated purpose for opening social media apps
 - **Time Allocation**: Intelligently allocates time based on task complexity
 - **Mock Mode**: Falls back to keyword-based validation when AI is unavailable
 - **Health Checks**: Built-in health monitoring endpoints
@@ -14,7 +14,7 @@ Backend API for AuraFocus - Mindful app usage tracker with LLM-powered purpose v
 
 ```bash
 # 1. Create environment file
-echo "ANTHROPIC_API_KEY=your_key_here" > .env
+echo "OPENAI_API_KEY=your_key_here" > .env
 
 # 2. Start the server
 docker-compose up -d
@@ -65,23 +65,24 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-# Edit .env with your ANTHROPIC_API_KEY
+# Edit .env with your OPENAI_API_KEY
 python main.py
 ```
 
 ## Environment Variables
 
-- `ANTHROPIC_API_KEY` - Required for AI validation (falls back to mock without it)
+- `OPENAI_API_KEY` - Required for AI validation (falls back to mock without it)
 - `PORT` - Server port (default: 8000)
 
 ## Deployment
 
 Works on any platform supporting Docker:
 - Railway
-- Render  
+- Render
 - Fly.io
 - Google Cloud Run
 - AWS ECS
 - DigitalOcean App Platform
 
 See README for detailed deployment instructions.
+

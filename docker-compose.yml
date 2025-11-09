@@ -9,7 +9,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
       - PORT=8000
       - HOST=0.0.0.0
       - ALLOWED_ORIGINS=*
@@ -34,3 +34,4 @@ services:
 networks:
   aurafocus-network:
     driver: bridge
+
