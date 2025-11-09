@@ -4,9 +4,6 @@ __pycache__/
 *$py.class
 *.so
 .Python
-env/
-venv/
-ENV/
 build/
 develop-eggs/
 dist/
@@ -23,14 +20,13 @@ wheels/
 .installed.cfg
 *.egg
 
-# Flask
-instance/
-.webassets-cache
+# Virtual Environment
+venv/
+ENV/
+env/
 
-# Environment
+# Environment Variables
 .env
-.env.local
-.env.*.local
 
 # IDE
 .vscode/
@@ -51,3 +47,6 @@ logs/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Docker
+.dockerignore
